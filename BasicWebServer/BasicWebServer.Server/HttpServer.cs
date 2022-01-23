@@ -88,7 +88,7 @@
 
             if (!sessionExists)
             {
-                request.Session[Session.SessionCurrentDateKey] = DateTime.Now.ToString();
+                request.Session[Session.SessionCurrentDateKey] = DateTime.UtcNow.ToString();
 
                 response.Cookies.Add(Session.SessionCookieName, request.Session.Id);
 

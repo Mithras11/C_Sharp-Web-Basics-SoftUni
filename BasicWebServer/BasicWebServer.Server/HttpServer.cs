@@ -64,9 +64,14 @@
 
                     var response = this.routingTable.MatchRequest(request);
 
-                    if (response.PreRenderAction != null)                    {
+
+                    //execute pre-render action for the response
+                    if (response.PreRenderAction != null)
+                    {
                         response.PreRenderAction(request, response);
                     }
+
+                    AddSession(request, response);
 
                     await WriteResponse(networkStream, response);
 
@@ -76,7 +81,19 @@
             }
         }
 
+        private static void AddSession(Request request, Response response)
+        {
+            var sessionExists = request.Session
+                .ContainsKey(Session.SessionCurrentDateKey);
 
+            if (!sessionExists)
+            {
+                request.Session[Session.SessionCurrentDateKey] = DateTime.Now.ToString();
+
+                response.Cookies.Add(Session.SessionCookieName, request.Session.Id);
+
+            }
+        }
 
         private async Task<string> ReadRequest(NetworkStream networkStream)
         {

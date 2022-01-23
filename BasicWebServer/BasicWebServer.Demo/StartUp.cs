@@ -7,7 +7,7 @@
     using System.Text;
     using System.Web;
 
-    
+
     public class StartUp
     {
         private const string HtmlForm =
@@ -90,7 +90,10 @@
 
         private static void AddCookiesAction(Request request, Response response)
         {
-            var requestHasCookies = request.Cookies.Any();
+            var requestHasCookies = request.Cookies
+                .Any(c => c.Name != Session.SessionCookieName);
+
+
             var bodyText = "";
 
             if (requestHasCookies)

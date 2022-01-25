@@ -7,7 +7,6 @@ namespace BasicWebServer.Demo.Controllers
     using System.Text;
     using System.Web;
 
-    //using System;
 
     public class HomeController : Controller
     {
@@ -83,7 +82,7 @@ namespace BasicWebServer.Demo.Controllers
         {
 
             if (this.Request.Cookies.Any(c =>
-                        c.Name != BasicWebServer.Server.HTTP.Session.SessionCookieName))
+                        c.Name != Server.HTTP.Session.SessionCookieName))
             {
                 var cookieText = new StringBuilder();
 
@@ -111,6 +110,28 @@ namespace BasicWebServer.Demo.Controllers
 
             return Html("<h1>Cookies set!</h1>", cookies);
         }
+
+
+
+        public Response Session()
+        {
+            var currentDateKey = "CurrentDate";
+            var sessionExists = this.Request.Session.ContainsKey(currentDateKey);
+
+
+            if (sessionExists)
+            {
+                var currentDate = this.Request.Session[currentDateKey];
+                return Text($"Stored date: {currentDate}!");
+            }
+            else
+            {
+                return Text("Current date stored!");
+            }
+
+        }
+
+
 
 
         private static async Task DownloadSitesAsTextFile(string fileName, string[] urls)

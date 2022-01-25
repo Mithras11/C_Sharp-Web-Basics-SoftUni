@@ -35,7 +35,7 @@
                           .MapGet<HomeController>("/Content", c => c.Content())
                           .MapPost<HomeController>("/Content", c => c.DownloadContent())
                           .MapGet<HomeController>("/Cookies", c => c.Cookies())
-            //.MapGet<HomeController>("/Session", c => c.Session()))
+                          .MapGet<HomeController>("/Session", c => c.Session())
             //.MapGet<HomeController>("/Login", new HtmlResponse(StartUp.LoginForm))
             //.MapPost<HomeController>("/Login", new HtmlResponse("", StartUp.LoginAction))
             //.MapGet<HomeController>("/Logout", new HtmlResponse("", StartUp.LogoutAction))
@@ -59,29 +59,7 @@
         //    }
         //}
 
-       
-        private static void DisplaySessionInfoAction(Request request, Response response)
-        {
-            var sessionExists = request.Session.ContainsKey(Session.SessionCurrentDateKey);
-
-            var bodyText = "";
-
-            if (sessionExists)
-            {
-                var currentDate = request.Session[Session.SessionCurrentDateKey];
-
-                bodyText = $"Stored date: {currentDate}!";
-            }
-            else
-            {
-                bodyText = "Current date stored!";
-            }
-
-            response.Body = "";
-            response.Body += bodyText;
-        }
-
-
+      
         private static void LoginAction(Request request, Response response)
         {
             request.Session.Clear();

@@ -4,6 +4,9 @@ namespace BasicWebServer.Demo.Controllers
 
     using BasicWebServer.Server.Controllers;
     using BasicWebServer.Server.HTTP;
+    using System.Text;
+    using System.Web;
+
     //using System;
 
     public class HomeController : Controller
@@ -75,6 +78,39 @@ namespace BasicWebServer.Demo.Controllers
         }
 
 
+
+        public Response Cookies()
+        {
+
+            if (this.Request.Cookies.Any(c =>
+                        c.Name != BasicWebServer.Server.HTTP.Session.SessionCookieName))
+            {
+                var cookieText = new StringBuilder();
+
+                cookieText.AppendLine("<h1>Cookies</h1>");
+                cookieText.Append("<table border='1'><tr><th>Name</th><th>Value</th></tr>");
+
+                foreach (var cookie in this.Request.Cookies)
+                {
+                    cookieText.Append("<tr>");
+                    cookieText.Append($"<td>{HttpUtility.HtmlEncode(cookie.Name)}</td>");
+                    cookieText.Append($"<td>{HttpUtility.HtmlEncode(cookie.Value)}</td>");
+                    cookieText.Append("</tr>");
+                }
+
+                cookieText.Append("</table>");
+
+                return Html(cookieText.ToString());
+            }
+
+
+
+            var cookies = new CookieCollection();
+            cookies.Add("My-Cookie", "My-Value"); //value="My-Cookie"??
+            cookies.Add("My-Second-Cookie", "My-Second-Value");
+
+            return Html("<h1>Cookies set!</h1>", cookies);
+        }
 
 
         private static async Task DownloadSitesAsTextFile(string fileName, string[] urls)

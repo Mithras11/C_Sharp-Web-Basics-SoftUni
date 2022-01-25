@@ -61,16 +61,8 @@
                     Console.WriteLine(requestText);
 
                     var request = Request.Parse(requestText);
-
                     var response = this.routingTable.MatchRequest(request);
 
-
-                    ///execute pre-render action for the response
-                   
-                    //if (response.PreRenderAction != null)
-                    //{
-                    //    response.PreRenderAction(request, response);
-                    //}
 
                     AddSession(request, response);
 

@@ -4,7 +4,7 @@ namespace BasicWebServer.Server.Controllers
     using Responses;
     using HTTP;
     using System.Runtime.CompilerServices;
-    using System;
+
 
     public abstract class Controller
     {
@@ -45,6 +45,9 @@ namespace BasicWebServer.Server.Controllers
 
         protected Response View([CallerMemberName] string viewName = "")
             => new ViewResponse(viewName, this.GetControllerName());
+
+        protected Response View(object model, [CallerMemberName] string viewName = "")
+           => new ViewResponse(viewName, this.GetControllerName(), model);
 
 
         private string GetControllerName()
